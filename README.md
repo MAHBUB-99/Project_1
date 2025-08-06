@@ -48,7 +48,7 @@ A modern, scalable, and full-featured **E-Commerce Website** built for real-worl
 - 📜 View & update order status
 - 📷 Image uploads & previews
 
----
+---k
 
 ## 📁 Folder Structure
 ```
