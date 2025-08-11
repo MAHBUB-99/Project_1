@@ -1,0 +1,17 @@
+name: CI/CD workflow to read hello.txt
+
+on:
+    push:
+        branches: 
+            - main
+
+jobs:
+    Read_hello_File:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Git Clone
+              uses: actions/checkout@v2
+
+            - name: Read hello.txt
+              run: cat hello.txt
