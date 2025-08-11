@@ -10,10 +10,20 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Git Clone
-              uses: actions/checkout@v2
+            - name: Git Clone (Checkout Repository)
+              uses: actions/checkout@v3
 
-            - name: Read hello.txt
+            - name: Verify hello.txt exists
               run: |
-                echo "Contents of hello.txt : "
+                if [ -f hello.txt ]; then
+                    echo "hello.txt found successfully."
+                else
+                    echo "hello.txt not found unfortunately."
+                    exit 1
+                fi
+
+            - name: Display contents of hello.txt
+              run: |
+                echo "-----------Contents of hello.txt-----------"
                 cat hello.txt
+                echo "-------------------------------------------"
