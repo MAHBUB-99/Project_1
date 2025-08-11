@@ -6,24 +6,39 @@ on:
             - main
 
 jobs:
-    Read_hello_File:
+    verify_hello_file:
         runs-on: ubuntu-latest
+        outputs:
+            file-exists: ${{ steps.check_file.outputs.exists}}
 
         steps:
             - name: Git Clone (Checkout Repository)
               uses: actions/checkout@v3
 
-            - name: Verify hello.txt exists
+            - id: check_file
+              name: Verify hello.txt exists
               run: |
                 if [ -f hello.txt ]; then
-                    echo "hello.txt found successfully."
+                    echo "✅ hello.txt found successfully."
+                    echo "exists=true" >> $GITHUB_OUTPUT
                 else
-                    echo "hello.txt not found unfortunately."
+                    echo "❌ hello.txt not found unfortunately."
+                    echo "exists=false" >> $GITHUB_OUTPUT
                     exit 1
                 fi
 
+    read_hello_file:
+        needs: verify_hello_file
+        runs-on: ubuntu-latest
+        if: needs.verify_hello_file.outputs.file-exists == 'true'
+
+        steps:
+            - name: Git Clone (Checkout repository)
+              uses: actions/checkout@v3
+
             - name: Display contents of hello.txt
               run: |
-                echo "-----------Contents of hello.txt-----------"
+                echo "-----------------------------Contents of hello.txt------------------------------"
+                echo ""
                 cat hello.txt
-                echo "-------------------------------------------"
+                echo "--------------------------------------------------------------------------------"
